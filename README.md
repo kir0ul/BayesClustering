@@ -1,1 +1,1 @@
-# BayesDistanceClustering-
+# Bayes Clustering
