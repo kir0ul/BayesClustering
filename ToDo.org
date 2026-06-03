@@ -6,6 +6,7 @@
 Doesn't change anything
 *** Remove diagonal covariance constraint
 Full covariance may improve the modeling of the data
+*** DONE Plot the probability instead of the uncertainty?
 ** Questions
 *** DONE Plot x1, x2 instead of PCs to see if it is well separated
 *** TODO Does supervised data actually steer the clusters positions?
@@ -28,7 +29,7 @@ Already the case
 * Next
 ** DONE Visualize uncertainty on new data
 ** DONE Add 5 observations instead of 2
-** Try on real data with features/windows and without
+** TODO Try on real data with features/windows and without
 
 * Practical implementation for writing
 ** When demoing, select some points auto and save with known segment from symbolic planner
