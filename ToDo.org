@@ -29,7 +29,14 @@ Already the case
 * Next
 ** DONE Visualize uncertainty on new data
 ** DONE Add 5 observations instead of 2
-** TODO Try on real data with features/windows and without
+** DONE Try on real data
+** TODO Add features to real data
+Try LPC (Linear Prdictive Coding) cepstrum
+** TODO Map back each Gaussian component to the timeserie & plot segmentation
 
 * Practical implementation for writing
 ** When demoing, select some points auto and save with known segment from symbolic planner
+* Feedback
+** Compute density for each data
+*** Threshold
+*** Does it need another K?
