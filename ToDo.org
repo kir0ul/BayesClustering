@@ -31,7 +31,10 @@ Already the case
 ** DONE Add 5 observations instead of 2
 ** DONE Try on real data
 ** TODO Add features to real data
-Try LPC (Linear Prdictive Coding) cepstrum
+*** TODO Remove beginning of the timeserie with gripper closing
+*** Try LPC (Linear Predictive Coding) cepstrum
+*** TODO Try scaling and not scaling
+*** Window or no window?
 ** TODO Map back each Gaussian component to the timeserie & plot segmentation
 
 * Practical implementation for writing
