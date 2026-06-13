@@ -1,45 +1,58 @@
 #+Title: To-Do
+* Practical implementation for writing
+** When demoing, select some points auto and save with known segment from symbolic planner
 * To-Do
 ** Code
 *** TODO Check code for bugs with some LLM
 *** DONE Trick for SPD(semi positive definite) \to $\frac{1}{2}(A + A^{\top})$
 Doesn't change anything
-*** Remove diagonal covariance constraint
+*** TODO Remove diagonal covariance constraint
 Full covariance may improve the modeling of the data
 *** DONE Plot the probability instead of the uncertainty?
+*** TODO Remove beginning of the timeserie with gripper closing
+*** TODO P(x) doesn't sum to 1
+*** DONE Map back each Gaussian component to the timeserie & plot segmentation
+*** DONE Visualize uncertainty on new data
+*** DONE Add 5 observations instead of 2
 ** Questions
 *** DONE Plot x1, x2 instead of PCs to see if it is well separated
 *** TODO Does supervised data actually steer the clusters positions?
-** Poor classification
+Doesn't seem so, may need some other example
+** DONE Poor classification
 *** DONE Play with $\beta$ and number of supervised data points
 *** DONE Increase window size
-*** Try scaling the training data
+*** Try scaling and not scaling
 **** Not scaling but mapping, i.e. not dividing by sigma
-*** Featurization & windowing
+*** DONE Featurization & windowing
 **** Why?
 ***** Clustering based on raw data implies working with highdimensional space—especially for data collected at fast sampling rates. It is also not desirable to work directly with the raw data that are highly noisy.
 [[file:assets/clustering methods.png]]
-**** TODO Add more features
+**** KILL Add more features
 **** Study which features to keep
 **** Don't use feature & windows?
 Seems that features and windows make it worst that no features at all
 **** DONE Move windows one point at a time
 Already the case
 **** Dimensionality reduction after featurization?
-* Next
-** DONE Visualize uncertainty on new data
-** DONE Add 5 observations instead of 2
-** DONE Try on real data
-** TODO Add features to real data
-*** TODO Remove beginning of the timeserie with gripper closing
+** Featurization
+*** Dimensionality reduction after featurization?
 *** Try LPC (Linear Predictive Coding) cepstrum
-*** TODO Try scaling and not scaling
-*** Window or no window?
-** TODO Map back each Gaussian component to the timeserie & plot segmentation
+*** Wavelet coefs?
+[[https://tsfel.readthedocs.io/en/latest/descriptions/modules/tsfel.feature_extraction.html#tsfel.feature_extraction.features.wavelet_energy]]
+*** TODO ~PowerTransformer~ to make features more Gaussian-like
+*** DONE Lagging features
+*** NO Window or no window?
 
-* Practical implementation for writing
-** When demoing, select some points auto and save with known segment from symbolic planner
-* Feedback
-** Compute density for each data
-*** Threshold
-*** Does it need another K?
+*** TODO Try scaling and not scaling
+** TODO IROS data
+*** DONE Try on real data
+*** TODO Apply segmentation to lower-level data
+*** TODO Segment with long task
+* Next
+** TODO Skill discovery
+*** Model 2 skills with Gaussians
+*** Use KL divergence to decide if they are the same distribution or different
+*** Algo/pipeline
+**** Compute density for each data
+***** Threshold
+***** Does it need another K?
