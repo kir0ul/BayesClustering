@@ -47,7 +47,7 @@ Already the case
 ** TODO IROS data
 *** DONE Try on real data
 *** DONE Apply segmentation to lower-level data
-*** TODO Segment with long task
+*** DONE Segment long task
 * TODO Next
 ** TODO Skill discovery
 *** Model 2 skills with Gaussians
