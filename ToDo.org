@@ -1,20 +1,20 @@
 #+Title: To-Do
 * Practical implementation for writing
 ** When demoing, select some points auto and save with known segment from symbolic planner
-* To-Do
-** Code
+* TODO To-Do
+** TODO Code
 *** TODO Check code for bugs with some LLM
 *** DONE Trick for SPD(semi positive definite) \to $\frac{1}{2}(A + A^{\top})$
 Doesn't change anything
 *** TODO Remove diagonal covariance constraint
 Full covariance may improve the modeling of the data
 *** DONE Plot the probability instead of the uncertainty?
-*** TODO Remove beginning of the timeserie with gripper closing
+*** DONE Remove beginning of the timeserie with gripper closing
 *** TODO P(x) doesn't sum to 1
 *** DONE Map back each Gaussian component to the timeserie & plot segmentation
 *** DONE Visualize uncertainty on new data
 *** DONE Add 5 observations instead of 2
-** Questions
+** TODO Questions
 *** DONE Plot x1, x2 instead of PCs to see if it is well separated
 *** TODO Does supervised data actually steer the clusters positions?
 Doesn't seem so, may need some other example
@@ -46,13 +46,13 @@ Already the case
 *** TODO Try scaling and not scaling
 ** TODO IROS data
 *** DONE Try on real data
-*** TODO Apply segmentation to lower-level data
+*** DONE Apply segmentation to lower-level data
 *** TODO Segment with long task
-* Next
+* TODO Next
 ** TODO Skill discovery
 *** Model 2 skills with Gaussians
 *** Use KL divergence to decide if they are the same distribution or different
 *** Algo/pipeline
 **** Compute density for each data
-***** Threshold
+***** Threshold based on KL divergence
 ***** Does it need another K?
