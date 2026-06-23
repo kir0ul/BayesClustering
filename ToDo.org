@@ -2,11 +2,11 @@
 * Practical implementation for writing
 ** When demoing, select some points auto and save with known segment from symbolic planner
 * TODO To-Do
-** TODO Code
+** Code
 *** DONE Check code for bugs with some LLM
 *** DONE Trick for SPD(semi positive definite) \to $\frac{1}{2}(A + A^{\top})$
 Doesn't change anything
-*** TODO Remove diagonal covariance constraint
+*** DONE Remove diagonal covariance constraint
 Full covariance may improve the modeling of the data
 *** DONE Plot the probability instead of the uncertainty?
 *** DONE Remove beginning of the timeserie with gripper closing
@@ -48,7 +48,7 @@ Already the case
 *** DONE Try on real data
 *** DONE Apply segmentation to lower-level data
 *** DONE Segment long task
-* TODO Next
+* Next
 ** TODO Skill discovery
 *** Model 2 skills with Gaussians
 *** Use KL divergence to decide if they are the same distribution or different

@@ -27,7 +27,9 @@ def e_step(U, pi_mixing_prior, mu, Sigma, seed=None, allow_singular=False):
     return gamma_resp
 
 
-def m_step(gamma_resp, U, X=None, Y=None, beta=0.5, reg_coef=1e-3):
+def m_step(
+    gamma_resp, U, X=None, Y=None, beta=0.5, reg_coef=1e-3, covariance_type=None
+):
     """
     Compute the maximization step.
     """
@@ -85,20 +87,17 @@ def m_step(gamma_resp, U, X=None, Y=None, beta=0.5, reg_coef=1e-3):
                     # gamma_resp[m, k] * (X[m, :] - mu_new[k]) * (X[m, :] - mu_new[k]).T
                     Y[m, k] * np.outer(diff, diff)
                 )
-        # Sigma_new[k] = ((1 - beta) * gamma_resp_u_mu) / common_term + (
-        #     beta * gamma_resp_x_mu
-        # ) / common_term
         var = ((1 - beta) * gamma_resp_u_mu) / common_term + (
             beta * gamma_resp_x_mu
         ) / common_term
-        # var = 1/2*(var + var.T)  # Semi Positive Definite issue
-        # # regularization for numerical stability (optional, small jitter)
-        # Sigma_new[k] += reg_coef*np.eye(D)
 
-        # # Constrain the covariance matrices to be diagonal
-        # var = (gamma_resp[:, k][:, None] * diff**2).sum(axis=0) / Nk[k]
-        # Sigma_new[k] = var + reg_coef*np.eye(D)
-        Sigma_new[k] = np.diag(np.diag(var)) + reg_coef * np.eye(D)
+        # Regularization for numerical stability (small jitter on the diagonal)
+        Sigma_new[k] = var + reg_coef * np.eye(D)
+
+        if covariance_type == "diagonal":
+            # Constrain the covariance matrices to be diagonal
+            Sigma_new[k] = np.diag(np.diag(Sigma_new[k]))  # + reg_coef * np.eye(D)
+
     return pi_mixing_prior_new, mu_new, Sigma_new
 
 
@@ -161,6 +160,7 @@ def run_EM(
     tol=1e-6,
     seed=None,
     allow_singular=False,
+    covariance_type=None,
 ):
     """
     Expectation-Maximization algorithm.
@@ -197,7 +197,13 @@ def run_EM(
 
         # M-step
         pi_mixing_prior, mu, Sigma = m_step(
-            U=U, X=X, Y=Y, beta=beta, gamma_resp=gamma_resp, reg_coef=reg_coef
+            U=U,
+            X=X,
+            Y=Y,
+            beta=beta,
+            gamma_resp=gamma_resp,
+            reg_coef=reg_coef,
+            covariance_type=covariance_type,
         )
 
         # Log-likelihood
