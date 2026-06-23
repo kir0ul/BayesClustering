@@ -66,7 +66,8 @@ def m_step(gamma_resp, U, X=None, Y=None, beta=0.5, reg_coef=1e-3):
             gamma_resp_x = 0
         else:
             for m in range(M):
-                gamma_resp_x += gamma_resp[m, k] * X[m, :]
+                # gamma_resp_x += gamma_resp[m, k] * X[m, :]
+                gamma_resp_x += Y[m, k] * X[m, :]
         mu_new[k, :] = ((1 - beta) * gamma_resp_u + beta * gamma_resp_x) / common_term
 
         # Update covariances (equation 7)
@@ -81,7 +82,8 @@ def m_step(gamma_resp, U, X=None, Y=None, beta=0.5, reg_coef=1e-3):
         else:
             for m in range(M):
                 gamma_resp_x_mu += (
-                    gamma_resp[n, k] * (X[m, :] - mu_new[k]) * (X[m, :] - mu_new[k]).T
+                    # gamma_resp[m, k] * (X[m, :] - mu_new[k]) * (X[m, :] - mu_new[k]).T
+                    Y[m, k] * (X[m, :] - mu_new[k]) * (X[m, :] - mu_new[k]).T
                 )
         # Sigma_new[k] = ((1 - beta) * gamma_resp_u_mu) / common_term + (
         #     beta * gamma_resp_x_mu
