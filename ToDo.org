@@ -3,7 +3,7 @@
 ** When demoing, select some points auto and save with known segment from symbolic planner
 * TODO To-Do
 ** TODO Code
-*** TODO Check code for bugs with some LLM
+*** DONE Check code for bugs with some LLM
 *** DONE Trick for SPD(semi positive definite) \to $\frac{1}{2}(A + A^{\top})$
 Doesn't change anything
 *** TODO Remove diagonal covariance constraint

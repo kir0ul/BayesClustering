@@ -74,16 +74,16 @@ def m_step(gamma_resp, U, X=None, Y=None, beta=0.5, reg_coef=1e-3):
         gamma_resp_u_mu = 0
         gamma_resp_x_mu = 0
         for n in range(N):
-            gamma_resp_u_mu += (
-                gamma_resp[n, k] * (U[n, :] - mu_new[k]) * (U[n, :] - mu_new[k]).T
-            )
+            diff = U[n, :] - mu_new[k]
+            gamma_resp_u_mu += gamma_resp[n, k] * np.outer(diff, diff)
         if beta == 0:
             gamma_resp_x_mu = 0
         else:
             for m in range(M):
+                diff = X[m, :] - mu_new[k]
                 gamma_resp_x_mu += (
                     # gamma_resp[m, k] * (X[m, :] - mu_new[k]) * (X[m, :] - mu_new[k]).T
-                    Y[m, k] * (X[m, :] - mu_new[k]) * (X[m, :] - mu_new[k]).T
+                    Y[m, k] * np.outer(diff, diff)
                 )
         # Sigma_new[k] = ((1 - beta) * gamma_resp_u_mu) / common_term + (
         #     beta * gamma_resp_x_mu
@@ -97,7 +97,8 @@ def m_step(gamma_resp, U, X=None, Y=None, beta=0.5, reg_coef=1e-3):
 
         # # Constrain the covariance matrices to be diagonal
         # var = (gamma_resp[:, k][:, None] * diff**2).sum(axis=0) / Nk[k]
-        Sigma_new[k] = np.diag(var + reg_coef)
+        # Sigma_new[k] = var + reg_coef*np.eye(D)
+        Sigma_new[k] = np.diag(np.diag(var)) + reg_coef * np.eye(D)
     return pi_mixing_prior_new, mu_new, Sigma_new
 
 
@@ -110,6 +111,7 @@ def log_likelihood(
     if X is None or Y is None:
         # Fall back to unsupervised
         beta = 0
+        M = 0
     else:
         assert X.shape[0] == Y.shape[0], "X and Y must have the same number of rows"
         assert U.shape[1] == X.shape[1], "U and X must have the same number of columns"
@@ -118,7 +120,7 @@ def log_likelihood(
     K = pi_mixing_prior.shape[0]
     log_probs = np.zeros((N, K))
     log_lik_unsuperv = np.zeros((N, K))
-    log_lik_superv = np.zeros((N, K))
+    log_lik_superv = np.zeros((M, K))
 
     for n in range(N):
         for k in range(K):
@@ -126,7 +128,7 @@ def log_likelihood(
                 x=U[n, :], mean=mu[k], cov=Sigma[k], allow_singular=allow_singular
             )
     log_norm = logsumexp(log_probs, axis=1, keepdims=True)
-    log_lik_unsuperv = (1 - beta) * log_norm.sum(axis=0)
+    log_lik_unsuperv = (1 - beta) * log_norm.sum()
 
     if beta == 0:
         log_lik_superv = 0
@@ -134,10 +136,14 @@ def log_likelihood(
         for m in range(M):
             for k in range(K):
                 # ToDo: may need to convert the multiplication by `Y[m, k]` to a sum of log
-                log_lik_superv[m, k] = Y[m, k] * np.log(
-                    pi_mixing_prior[k]
-                ) + multivariate_normal.logpdf(
-                    x=X[m, :], mean=mu[k], cov=Sigma[k], allow_singular=allow_singular
+                log_lik_superv[m, k] = Y[m, k] * (
+                    np.log(pi_mixing_prior[k])
+                    + multivariate_normal.logpdf(
+                        x=X[m, :],
+                        mean=mu[k],
+                        cov=Sigma[k],
+                        allow_singular=allow_singular,
+                    )
                 )
         log_lik_superv = beta * log_lik_superv.sum()
 
@@ -210,7 +216,7 @@ def run_EM(
         # Logging during training
         if it % 10 == 0:
             # plot_gmm(X, mu, Sigma, title=f'GMM Contours — Iteration {it+1}')
-            print(f"Iteration {it:>3}/{max_iter} -- Log-likelihood: {ll[0]}")
+            print(f"Iteration {it:>3}/{max_iter} -- Log-likelihood: {ll}")
 
         # Convergence check
         if it > 0 and abs(lls[-1] - lls[-2]) < tol:
