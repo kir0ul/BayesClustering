@@ -189,7 +189,7 @@ def run_EM(
 
         # M-step
         pi_mixing_prior, mu, Sigma = m_step(
-            U=U, X=X, Y=Y, gamma_resp=gamma_resp, reg_coef=reg_coef
+            U=U, X=X, Y=Y, beta=beta, gamma_resp=gamma_resp, reg_coef=reg_coef
         )
 
         # Log-likelihood
@@ -197,6 +197,7 @@ def run_EM(
             U=U,
             X=X,
             Y=Y,
+            beta=beta,
             pi_mixing_prior=pi_mixing_prior,
             mu=mu,
             Sigma=Sigma,
