@@ -44,7 +44,7 @@ Already the case
 *** NO Window or no window?
 
 *** TODO Try scaling and not scaling
-** TODO IROS data
+** DONE IROS data
 *** DONE Try on real data
 *** DONE Apply segmentation to lower-level data
 *** DONE Segment long task
