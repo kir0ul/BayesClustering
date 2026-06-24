@@ -16,8 +16,11 @@ Full covariance may improve the modeling of the data
 *** DONE Add 5 observations instead of 2
 ** TODO Questions
 *** DONE Plot x1, x2 instead of PCs to see if it is well separated
-*** TODO Does supervised data actually steer the clusters positions?
+*** DONE Does supervised data actually steer the clusters positions?
 Doesn't seem so, may need some other example
+*** Add force timeseries?
+*** DONE Study the impact on the number of supervised data points with $\beta = 1$
+*** Does performance improve if supervised data is linearly spaced instead of being chosen at random?
 ** DONE Poor classification
 *** DONE Play with $\beta$ and number of supervised data points
 *** DONE Increase window size
@@ -39,7 +42,7 @@ Already the case
 *** Try LPC (Linear Predictive Coding) cepstrum
 *** Wavelet coefs?
 [[https://tsfel.readthedocs.io/en/latest/descriptions/modules/tsfel.feature_extraction.html#tsfel.feature_extraction.features.wavelet_energy]]
-*** TODO ~PowerTransformer~ to make features more Gaussian-like
+*** TODO ~PowerTransformer~ to make features more Gaussian-like?
 *** DONE Lagging features
 *** NO Window or no window?
 
@@ -56,3 +59,5 @@ Already the case
 **** Compute density for each data
 ***** Threshold based on KL divergence
 ***** Does it need another K?
+** IDEA Scale the objective by the size of supervised samples?
+** Plot both objectives: supervised likelihood & unsupervised likelihood

@@ -43,6 +43,7 @@ def m_step(
         M, _ = X.shape
     N, D = U.shape
     K = gamma_resp.shape[1]
+    eps = np.finfo(np.float32).eps
 
     pi_mixing_prior_new = np.zeros(K) * np.nan
     mu_new = np.zeros((K, D)) * np.nan
@@ -55,6 +56,8 @@ def m_step(
             common_term = (1 - beta) * gamma_resp.sum(axis=0)[k] + beta * Y.sum(axis=0)[
                 k
             ]
+        if np.isnan(common_term) or common_term < eps:
+            common_term = eps
 
         # Update mixing coefficients (equation 5)
         pi_mixing_prior_new[k] = common_term / ((1 - beta) * N + beta * M)
